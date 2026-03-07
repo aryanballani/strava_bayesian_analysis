@@ -3,9 +3,9 @@ import pandas as pd
 import time
 
 # --- CONFIGURATION ---
-CLIENT_ID = '208886'
-CLIENT_SECRET = '562bbe8c0f3281bb5c233a4df42968fe208ced8e'
-REFRESH_TOKEN = '14de4041333b570cba74cd2b118e14d659a49c2a'
+CLIENT_ID = '208904'
+CLIENT_SECRET = 'f588e3d157040b1d491e1343a9a0d13b6bbec1d4'
+REFRESH_TOKEN = '5c92171c9a13fc340102400291b50fa4407bde92'
 
 def get_access_token():
     """Uses the refresh token to get a valid 6-hour access token."""

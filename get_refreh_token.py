@@ -1,8 +1,8 @@
 import requests
 
 # 1. PASTE YOUR INFO HERE
-CLIENT_ID = '208886'
-CLIENT_SECRET = '562bbe8c0f3281bb5c233a4df42968fe208ced8e'
+CLIENT_ID = '208904'
+CLIENT_SECRET = 'f588e3d157040b1d491e1343a9a0d13b6bbec1d4'
 
 # 2. GENERATE THE URL
 # Run this script, copy the link it prints, and paste it into your browser.
