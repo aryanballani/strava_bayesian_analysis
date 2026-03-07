@@ -5,7 +5,7 @@ import time
 # --- CONFIGURATION ---
 CLIENT_ID = '208886'
 CLIENT_SECRET = '562bbe8c0f3281bb5c233a4df42968fe208ced8e'
-REFRESH_TOKEN = 'a4fb4c704ee7aacc7b562afbe0166262bfb958d0'
+REFRESH_TOKEN = '14de4041333b570cba74cd2b118e14d659a49c2a'
 
 def get_access_token():
     """Uses the refresh token to get a valid 6-hour access token."""
