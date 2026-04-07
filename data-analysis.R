@@ -1,6 +1,6 @@
 library(dplyr)
 library(ggplot2)
-ellie <- read.csv("ellie.csv") %>%
+ellie <- read.csv("data/ellie.csv") %>%
   select("date", "elevation_gain", "distance_km", "pace_min_km")
 # Select runs from 2025/26
 ellie <- ellie %>%
@@ -27,4 +27,6 @@ ggplot() +
   geom_point(data = ellie, aes(x = date, y = distance_km)) +
   labs(x = "Date", y = "Distance (km)") +
   theme_minimal()
-
+cumsum(weekdays(ellie$date) == "Friday")
+ggplot() +
+  geom_histogram(data = ellie, aes(x = ))
