@@ -1,12 +1,18 @@
 library(dplyr)
 library(ggplot2)
-ellie <- read.csv("data/ellie.csv") %>%
-  select("date", "elevation_gain", "distance_km", "pace_min_km")
+ellie <- read.csv("data/raw-data.csv") %>%
+  select("date", "elevation_gain", "distance_km", "pace_min_km") %>%
+  filter(pace_min_km < 7)
 # Select runs from 2025/26
-ellie <- ellie %>%
+ellie_2526 <- ellie %>%
   mutate(date = as.Date(ellie$date)) %>%
-  filter(date > as.Date("2024-01-01"))
-View(ellie)
+  filter(date > as.Date("2025-01-01"))
+ellie_weekly_2526 <- ellie_2526 %>% 
+  mutate(week = cut.Date(date, breaks = "1 week", labels = FALSE)) %>%
+  group_by(week) %>%
+  summarize(weekly_mileage = sum(distance_km))
+View(ellie_weekly_2526)
+#View(ellie)
 # Distance vs pace
 ggplot() +
   geom_point(data = ellie, aes(x = distance_km, y = pace_min_km)) +
@@ -27,6 +33,16 @@ ggplot() +
   geom_point(data = ellie, aes(x = date, y = distance_km)) +
   labs(x = "Date", y = "Distance (km)") +
   theme_minimal()
-cumsum(weekdays(ellie$date) == "Friday")
+# Weekly mileage since 2025
 ggplot() +
-  geom_histogram(data = ellie, aes(x = ))
+  geom_col(data = ellie_weekly_2526, 
+           aes(x = week, y = weekly_mileage))
+ellie_weekly_6mo <- ellie %>%
+  mutate(date = as.Date(ellie$date)) %>%
+  filter(date > as.Date("2025-11-01")) %>% 
+  mutate(week = cut.Date(date, breaks = "1 week", labels = FALSE)) %>%
+  group_by(week) %>%
+  summarize(weekly_mileage = sum(distance_km))
+ggplot() +
+  geom_col(data = ellie_weekly_6mo, 
+           aes(x = week, y = weekly_mileage))
