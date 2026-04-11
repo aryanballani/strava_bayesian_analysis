@@ -1,6 +1,7 @@
 source("./simPPLe/simple.R")
 source("./simPPLe/simpleUtils.R")
 library(distr)
+set.seed(42)
 
 data <- read.csv2("./data/weekly_data_naive.csv", header = TRUE, sep = ",")
 weekly_mileage_obs <- as.numeric(data$weekly_mileage)
@@ -61,11 +62,11 @@ posterior = function(ppl_function, number_of_iterations) {
   for (i in 1:number_of_iterations) {
     weight <<- 1.0
     g_i = ppl_function()
-    cat(g_i, "\n")
+    #cat(g_i, "\n")
     numerator = numerator + weight * g_i
     denominator = denominator + weight
-    cat(numerator, "\n")
-    cat(denominator, "\n")
+    #cat(numerator, "\n")
+    #cat(denominator, "\n")
   }
   return(numerator/denominator)
 }
