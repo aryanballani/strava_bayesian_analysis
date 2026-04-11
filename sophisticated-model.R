@@ -9,7 +9,7 @@ stan_data <- list(
 )
 mod <- cmdstan_model("./sophisticated-model.stan")
 # run the sampler
-fit <- mod$sample(
+fit_mcmc <- mod$sample(
   data = stan_data,
   seed = 405,
   chains = 2,
@@ -17,15 +17,15 @@ fit <- mod$sample(
   iter_sampling = 1000
 )
 # extract posterior means for each week
-colMeans(fit$draws("X", format = "matrix"))
+colMeans(fit_mcmc$draws("X", format = "matrix"))
 # Posterior mean and 80% credible interval for predicted
-X_next_draws <- fit$draws("X_next", format = "matrix")
+X_next_draws <- fit_mcmc$draws("X_next", format = "matrix")
 mean(X_next_draws)
 quantile(X_next_draws, c(0.1, 0.9))
 
 # Check for slow mixing
-mcmc_trace(fit$draws("X_next_unconstrained")) + theme_minimal()
-mcmc_rank_hist(fit$draws("X_next_unconstrained")) + ylab("number of MCMC samples with these ranks") + theme_minimal()
+mcmc_trace(fit_mcmc$draws("X_next_unconstrained")) + theme_minimal()
+mcmc_rank_hist(fit_mcmc$draws("X_next_unconstrained")) + ylab("number of MCMC samples with these ranks") + theme_minimal()
 
 # Conduct invariance test
 log_joint = function(X_unconstrained, y) {
@@ -86,10 +86,7 @@ exact_invariance = function(joint) {
 result <- exact_invariance(log_joint)
 print(result)
 
-# MCMC
-fit_mcmc <- mod$sample(data = stan_data, chains = 2, iter_sampling = 1000)
-
-# VI
+# Compare posteriors from MCMC and VI
 fit_vi <- mod$variational(data = stan_data)
 
 # Compare posterior means for X
