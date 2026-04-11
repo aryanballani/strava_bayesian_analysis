@@ -46,9 +46,9 @@ scale <- 1
 X <- Unif(0,1)
 
 fitness_function = function() {
-  fitness = simulate(X)
+  # fitness = simulate(X)
   for (i in seq_along(weekly_mileage_obs)) {
-    #fitness = simulate(X)
+    fitness = simulate(X)
     obs = max(weekly_mileage_obs[i], 0.01)
     observe(obs, Gammad(scale = scale, shape = 50*fitness))
   }
