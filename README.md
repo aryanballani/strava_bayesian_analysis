@@ -1,12 +1,15 @@
-# strava_bayesian_analysis
+# Strava Bayesian Analysis
 
-This repository collects running activity data from Strava and prepares a CSV dataset for downstream (Bayesian) analysis.
+This repository collects running activity data from Strava, cleans it into weekly features, and fits Bayesian models to the resulting dataset.
 
-## Files used to create the dataset
+## Repository structure
 
-- `1_data_collection.py` — unified, interactive script that guides you through obtaining (or re-using) a Strava refresh token and downloading all running activities into `my_strava_data.csv`.
-- `get_refreh_token.py` — original helper (kept for reference) to obtain a refresh token via the OAuth flow.
-- `data_collection.py` — original collection script (kept for reference).
+- `1_data_collection.py` — collects Strava running activities into a raw CSV
+- `2_data_cleaning.py` — converts raw activity-level data into weekly features
+- `3_exploratory_analysis.R` — exploratory plots and summary analysis
+- `4_naive_model.R` — first Bayesian baseline / naive model
+- `data/` — raw and cleaned datasets used by the analysis
+- `simPPLe/` — helper code used by the naive model
 
 ## Prerequisites
 
@@ -73,11 +76,6 @@ Security note: Do NOT commit your client secret or refresh token to a public rep
 
 - Add any files that store secrets to your `.gitignore`. For example, if you create a `.env` file to hold credentials, add `.env` to `.gitignore`.
 - Audit your repo history before pushing to a public remote. If credentials were accidentally committed, rotate them immediately (revoke the client secret or refresh token in your Strava settings).
-
-## Troubleshooting
-
-- "Failed to refresh token" from `data_collection.py`: make sure `CLIENT_ID`, `CLIENT_SECRET`, and `REFRESH_TOKEN` are correct and not expired/revoked.
-- If `get_refreh_token.py` fails to exchange the authorization code, ensure the redirect URI you used when registering the app matches the `redirect_uri` in the script (it uses `http://localhost` by default).
 
 ## Notes
 

@@ -54,6 +54,7 @@ fitness_function = function() {
   pred = simulate(X)
   return(pred)
 }
+
 posterior = function(ppl_function, number_of_iterations) {
   numerator = 0.0
   denominator = 0.0
@@ -68,6 +69,7 @@ posterior = function(ppl_function, number_of_iterations) {
   }
   return(numerator/denominator)
 }
+
 observe = function(realization, distribution) {
   # `<<-` lets us modify variables that live in the global scope from inside a function
   log_weight <<- log_weight * log_p(distribution, realization) 
