@@ -1,11 +1,13 @@
 library(cmdstanr)
-data <- read.csv2("./data/weekly_data_naive.csv", header = TRUE, sep = ",")
+
+data <- read.csv2("./data/weekly_data.csv", header = TRUE, sep = ",")
+
 weekly_mileage_obs <- as.numeric(data$weekly_mileage)
 stan_data <- list(
   N = length(weekly_mileage_obs),
   y = ifelse(weekly_mileage_obs == 0, 0.01, weekly_mileage_obs)
 )
-mod <- cmdstan_model("./sophisticated-model.stan")
+mod <- cmdstan_model("./5_state_space_model.stan")
 # run the sampler
 fit <- mod$sample(
   data = stan_data,

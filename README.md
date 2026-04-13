@@ -8,7 +8,10 @@ This repository collects running activity data from Strava, cleans it into weekl
 - `2_data_cleaning.py` — converts raw activity-level data into weekly features
 - `3_exploratory_analysis.R` — exploratory plots and summary analysis
 - `4_naive_model.R` — first Bayesian baseline / naive model
+- `5_state_space_model.R` — more sophisticated Bayesian model fit with Stan
+- `5_state_space_model.stan` — Stan program used by the advanced model
 - `data/` — raw and cleaned datasets used by the analysis
+- `visualizations/` — saved figures used in the project write-up
 - `simPPLe/` — helper code used by the naive model
 
 ## Prerequisites
@@ -81,4 +84,5 @@ Security note: Do NOT commit your client secret or refresh token to a public rep
 
 - The CSV produced contains columns like `date`, `distance_km`, `time_sec`, `pace_min_km`, `avg_heartrate`, `max_heartrate`, and others useful for analysis.
 - The cleaned weekly CSV contains `week`, `weekly_mileage`, `weekly_elevation_gain`, and `weekly_avg_pace_min_km`.
+- The current modeling workflow is organized in order from collection through the naive model and the more sophisticated Stan-based model.
 - Consider creating a minimal test run (a few activities) before attempting to download your entire history.

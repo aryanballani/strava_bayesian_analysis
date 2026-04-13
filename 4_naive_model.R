@@ -3,7 +3,7 @@ source("./simPPLe/simpleUtils.R")
 library(distr)
 set.seed(42)
 
-data <- read.csv2("./data/weekly_data_naive.csv", header = TRUE, sep = ",")
+data <- read.csv2("./data/weekly_data.csv", header = TRUE, sep = ",")
 weekly_mileage_obs <- as.numeric(data$weekly_mileage)
 
 # =========== Modified SimplePPL ===========

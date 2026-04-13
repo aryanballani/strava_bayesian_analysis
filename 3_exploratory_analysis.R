@@ -3,13 +3,7 @@ library(ggplot2)
 library(readr)
 library(scales)
 
-weekly_data_path <- if (file.exists("data/weekly-cleaned-data.csv")) {
-  "data/weekly-cleaned-data.csv"
-} else {
-  "data/weekly_data_naive.csv"
-}
-
-weekly <- read_csv(weekly_data_path, show_col_types = FALSE) %>%
+weekly <- read_csv("data/weekly_data.csv", show_col_types = FALSE) %>%
   mutate(
     week = as.integer(week),
     week_start = as.Date("2020-03-02") + (week - 1) * 7
