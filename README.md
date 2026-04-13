@@ -27,6 +27,7 @@ python3 -m pip install requests pandas
 ## Quick start: run the unified collector
 
 The recommended way to collect your Strava runs now is the unified script `1_data_collection.py`.
+Go to https://www.strava.com/settings/api to get your credentials for your strava profile.
 
 It will read `STRAVA_CLIENT_ID`, `STRAVA_CLIENT_SECRET`, and `STRAVA_REFRESH_TOKEN` from the environment if present. Otherwise it will prompt you interactively and can walk you through obtaining a refresh token via the OAuth flow.
 
