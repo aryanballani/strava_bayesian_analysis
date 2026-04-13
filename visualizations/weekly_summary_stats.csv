@@ -1,0 +1,4 @@
+variable,n,mean,sd,min,q1,median,q3,max
+weekly_mileage,319,23.41,18.69,0,5.62,21.12,38.5,70.28
+weekly_avg_pace_min_km,270,5.37,0.51,4.63,5.08,5.27,5.52,8.89
+weekly_elevation_gain,319,194.09,192.73,0,34.65,139.7,315.05,1446.6

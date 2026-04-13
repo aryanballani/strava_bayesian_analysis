@@ -20,6 +20,48 @@ if (!"weekly_elevation_gain" %in% names(weekly)) {
 
 dir.create("visualizations", showWarnings = FALSE)
 
+summary_stats <- bind_rows(
+  weekly %>%
+    summarize(
+      variable = "weekly_mileage",
+      n = sum(!is.na(weekly_mileage)),
+      mean = mean(weekly_mileage, na.rm = TRUE),
+      sd = sd(weekly_mileage, na.rm = TRUE),
+      min = min(weekly_mileage, na.rm = TRUE),
+      q1 = quantile(weekly_mileage, 0.25, na.rm = TRUE),
+      median = median(weekly_mileage, na.rm = TRUE),
+      q3 = quantile(weekly_mileage, 0.75, na.rm = TRUE),
+      max = max(weekly_mileage, na.rm = TRUE)
+    ),
+  weekly %>%
+    summarize(
+      variable = "weekly_avg_pace_min_km",
+      n = sum(!is.na(weekly_avg_pace_min_km)),
+      mean = mean(weekly_avg_pace_min_km, na.rm = TRUE),
+      sd = sd(weekly_avg_pace_min_km, na.rm = TRUE),
+      min = min(weekly_avg_pace_min_km, na.rm = TRUE),
+      q1 = quantile(weekly_avg_pace_min_km, 0.25, na.rm = TRUE),
+      median = median(weekly_avg_pace_min_km, na.rm = TRUE),
+      q3 = quantile(weekly_avg_pace_min_km, 0.75, na.rm = TRUE),
+      max = max(weekly_avg_pace_min_km, na.rm = TRUE)
+    ),
+  weekly %>%
+    summarize(
+      variable = "weekly_elevation_gain",
+      n = sum(!is.na(weekly_elevation_gain)),
+      mean = mean(weekly_elevation_gain, na.rm = TRUE),
+      sd = sd(weekly_elevation_gain, na.rm = TRUE),
+      min = min(weekly_elevation_gain, na.rm = TRUE),
+      q1 = quantile(weekly_elevation_gain, 0.25, na.rm = TRUE),
+      median = median(weekly_elevation_gain, na.rm = TRUE),
+      q3 = quantile(weekly_elevation_gain, 0.75, na.rm = TRUE),
+      max = max(weekly_elevation_gain, na.rm = TRUE)
+    )
+) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 2)))
+
+write_csv(summary_stats, "visualizations/weekly_summary_stats.csv")
+
 base_theme <- theme_minimal(base_size = 12) +
   theme(
     plot.title = element_text(face = "bold"),
@@ -97,3 +139,4 @@ ggsave(
 print(weekly_mileage_plot)
 print(weekly_pace_plot)
 print(weekly_relationship_plot)
+print(summary_stats)
