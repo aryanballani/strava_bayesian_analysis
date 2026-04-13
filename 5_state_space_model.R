@@ -1,4 +1,6 @@
-library(cmdstanr)
+suppressPackageStartupMessages(library(cmdstanr))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(bayesplot))
 
 data <- read.csv2("./data/weekly_data.csv", header = TRUE, sep = ",")
 
@@ -8,22 +10,29 @@ stan_data <- list(
   y = ifelse(weekly_mileage_obs == 0, 0.01, weekly_mileage_obs)
 )
 mod <- cmdstan_model("./5_state_space_model.stan")
+
 # run the sampler
-fit <- mod$sample(
+fit_mcmc <- mod$sample(
   data = stan_data,
   seed = 405,
-  chains = 4,
-  parallel_chains = 4,
+  chains = 2,
   iter_warmup = 1000,
   iter_sampling = 1000
 )
+
 # extract posterior means for each week
-colMeans(fit$draws("X", format = "matrix"))
+colMeans(fit_mcmc$draws("X", format = "matrix"))
 # Posterior mean and 80% credible interval for predicted
-X_next_draws <- fit$draws("X_next", format = "matrix")
+X_next_draws <- fit_mcmc$draws("X_next", format = "matrix")
+
 mean(X_next_draws)
 quantile(X_next_draws, c(0.1, 0.9))
 
+# Check for slow mixing
+mcmc_trace(fit_mcmc$draws("X_next_unconstrained")) + theme_minimal()
+mcmc_rank_hist(fit_mcmc$draws("X_next_unconstrained")) + ylab("number of MCMC samples with these ranks") + theme_minimal()
+
+# Conduct invariance test
 log_joint = function(X_unconstrained, y) {
   N = length(y)
   X = plogis(X_unconstrained)
@@ -81,3 +90,14 @@ exact_invariance = function(joint) {
 
 result <- exact_invariance(log_joint)
 print(result)
+
+# Compare posteriors from MCMC and VI
+fit_vi <- mod$variational(data = stan_data)
+
+# Compare posterior means for X
+X_mcmc <- colMeans(fit_mcmc$draws("X", format = "matrix"))
+X_vi   <- colMeans(fit_vi$draws("X", format = "matrix"))
+
+plot(X_mcmc, type = "l", col = "midnightblue", ylab = "Fitness", xlab = "Week")
+lines(X_vi, col = "magenta")
+legend("topright", legend = c("MCMC", "VI"), col = c("midnightblue", "magenta"), lty = 1)
