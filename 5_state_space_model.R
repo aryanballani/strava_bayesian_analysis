@@ -82,7 +82,7 @@ forward = function() {
 }
 
 exact_invariance = function(joint) {
-  forward_only = colMeans(plogis(replicate(1000, stationary_mcmc(joint, 0))))
+  forward_only = colMeans(plogis(replicate(1000, stationary_mcmc(joint, 200))))
   with_mcmc    = colMeans(plogis(replicate(1000, stationary_mcmc(joint, 200))))
   
   ks.test(forward_only, with_mcmc)
