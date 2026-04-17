@@ -2,6 +2,8 @@
 
 This repository collects running activity data from Strava, cleans it into weekly features, and fits Bayesian models to the resulting dataset.
 
+You can find the final project report [here.](./STAT_405_Project_Report.pdf)
+
 ## Repository structure
 
 - `1_data_collection.py` — collects Strava running activities into a raw CSV
